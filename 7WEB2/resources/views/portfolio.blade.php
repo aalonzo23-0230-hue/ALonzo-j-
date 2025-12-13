@@ -82,6 +82,39 @@
             position:absolute;top:100vh;min-height:100vh;width:100%;
             padding:50px;background:#000;color:#fff;z-index:25
         }
+        .work-container{max-width:1100px;margin:0 auto;padding-top:2rem}
+        #work h2{font-family:'Montserrat',sans-serif;font-size:clamp(2rem,5vw,4rem);text-align:center;margin-bottom:3rem;color:#0ff;text-shadow:0 0 20px rgba(0,255,255,.5)}
+        .about-content{display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:start;margin-bottom:4rem}
+        .profile-photo{width:100%;height:280px;object-fit:cover;border-radius:10px;border:3px solid var(--fin);box-shadow:0 0 25px rgba(0,255,255,.3)}
+        .about-text{font-size:1.1rem;line-height:1.8;color:#ccc}
+        .about-text p{margin-bottom:1.2rem}
+        .interests-section h3{font-family:'Montserrat',sans-serif;font-size:clamp(1.5rem,3vw,2.5rem);text-align:center;margin:4rem 0 2rem;color:#0ff}
+        .interests-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem}
+        .interest-item{display:flex;align-items:flex-start;gap:1rem;padding:1.5rem;background:rgba(0,17,34,.4);border-radius:10px;border:1px solid rgba(0,255,255,.2);transition:transform .3s, box-shadow .3s}
+        .interest-item:hover{transform:translateY(-5px);box-shadow:0 5px 20px rgba(0,255,255,.2)}
+        .interest-icon{font-size:2.5rem;filter:drop-shadow(0 0 5px rgba(0,255,255,.5))}
+        .interest-text{flex:1;line-height:1.6;color:#ddd}
+        .interest-text strong{color:#0ff;font-family:'Montserrat',sans-serif;display:block;margin-bottom:.3rem}
+        @media (max-width:768px){
+            .about-content{grid-template-columns:1fr;text-align:center}
+            .profile-photo{height:250px;width:250px;margin:0 auto}
+            .interests-grid{grid-template-columns:1fr}
+        }
+        @keyframes fadeInContent{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .fade-in{opacity:0;animation:fadeInContent 1s ease-out forwards}
+        .fade-in-content{opacity:0;animation:fadeInContent 1s ease-out forwards}
+        .fade-in:nth-child(1){animation-delay:2.5s}
+        .fade-in:nth-child(2){animation-delay:2.7s}
+        .fade-in:nth-child(3){animation-delay:2.9s}
+        .fade-in:nth-child(4){animation-delay:3.1s}
+        .ocean-bg-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:-1}
+        .particle{position:absolute;border-radius:50%;animation:floatParticles 15s infinite linear}
+        .small-bubble{width:4px;height:4px;background:radial-gradient(circle,rgba(200,240,255,.4) 0%,transparent 70%);box-shadow:0 0 6px rgba(100,200,255,.3)}
+        .medium-bubble{width:8px;height:8px;background:radial-gradient(circle,rgba(180,220,255,.3) 0%,transparent 70%);box-shadow:0 0 10px rgba(80,180,255,.2)}
+        @keyframes floatParticles{0%{transform:translateY(100vh) translateX(0) scale(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(-10vh) translateX(100px) scale(1.2);opacity:0}}
+        .highlight{color:#0ff;font-weight:600;text-shadow:0 0 8px rgba(0,255,255,.4);position:relative;display:inline-block}
+        .highlight::after{content:"";position:absolute;bottom:-2px;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,#0ff,transparent);animation:shimmer 2s infinite}
+        @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
         /* ---------- ocean / animation layer ---------- */
         .ocean{position:absolute;width:100%;height:100vh;z-index:10}
         .ocean-effects{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
@@ -193,13 +226,15 @@
         .attack-flash{position:absolute;width:100%;height:100%;background:radial-gradient(circle,rgba(255,0,0,.3),transparent 70%);opacity:0;pointer-events:none;z-index:5;transition:opacity .3s}
         .attack-flash.active{opacity:1;animation:flashPulse .5s ease-in-out}
         @keyframes flashPulse{0%,100%{opacity:0}50%{opacity:1}}
+        .fade-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;opacity:0;pointer-events:none;z-index:100;transition:opacity 2s ease-in-out}
+        .fade-overlay.active{opacity:1}
     </style>
 </head>
 <body>
 
 <!-- Portfolio headline & button -->
 <div class="portfolio-content">
-    <h1 class="name" id="name">Alonzo</h1>
+    <h1 class="name" id="name">Adrian f Alonzo</h1>
     <p class="tagline">Hello this is my simple portfolio</p>
     <a href="#work" class="cta-button" id="workButton">See my work</a>
 </div>
@@ -209,9 +244,43 @@
 
 <!-- Work section (scroll target) -->
 <section id="work">
-    <h2>My Work</h2>
-    <p>This is where your portfolio projects would go...</p>
-</section>
+    <div class="ocean-bg-particles" id="oceanParticles"></div>
+    <div class="work-container fade-in-content">
+        <h2 class="fade-in">About Me</h2>
+        <div class="about-content fade-in">
+            <div class="photo-wrapper">
+                <img src="https://lh7-rt.googleusercontent.com/sitesz/AClOY7o-NO_LPK6huhzvIQXpnG5AOGgtLRohV6jLP8tlaXKM_gekRVCk1zKXKIQ57pQxE5bbhEjjHpxqEyNLfWvbHbzYEMlli2NY6OLuh7cKZj-V7jnBefwC1Ca6kdVy9O-Sw2Uo_kjwHGzhNkgVg3osqrfWsMoLTaju6uZj4PCGG-0ka3Mg-_fq?key=VIq-wpVP9dF_IwY-9XA4MQ" alt="Profile Photo" class="profile-photo">
+            </div>
+            <div class="about-text">
+                <p>Hello my name is <span class="highlight">Adrian f Alonzo</span> – a weekend warrior and digital adventurer. I live for the thrill of exploring open worlds, both virtual and real. Whether I'm tearing through night highways, crushing trails from Friday to Monday, or binge-reading the latest manhwa drops, I'm always chasing that next adrenaline hit.</p>
+                <p>Gaming's my main jam – I've platinumed Ghost of Tsushima, raided every corner of Valhalla, and I'm currently getting my ass handed to me in God of War Ragnarok's hardest difficulty. War Thunder? Let's just say my tank crew knows the bitter taste of defeat all too well.</p>
+                <p>When I'm not respawning, you'll catch me: <span class="highlight">biking trails on weekends</span>, <span class="highlight">riding my motorcycle at night</span>, or <span class="highlight">reading manhwa until 3 AM</span> (Solo Leveling got me hooked bad).</p>
+                <p>Right now, I'm just hunting for my next big obsession – whether it's a new game drop, a fresh trail to conquer, or the latest chapter release that everyone's screaming about.</p>
+            </div>
+        </div>
+        <div class="interests-section fade-in">
+            <h3>Creative Playground</h3>
+            <div class="interests-grid">
+                <div class="interest-item fade-in">
+                    <div class="interest-icon">🎮</div>
+                    <div class="interest-text"><strong>Gaming:</strong> I've platinumed Ghost of Tsushima, raided every corner of Valhalla, and I'm currently getting my ass handed to me in God of War Ragnarok's hardest difficulty. War Thunder? Let's just say my tank crew knows the bitter taste of defeat all too well.</div>
+                </div>
+                <div class="interest-item fade-in">
+                    <div class="interest-icon">🚴</div>
+                    <div class="interest-text"><strong>Biking:</strong> I bike trails on weekends. It's how I stay active and clear my head. My weekends are basically pedal-powered therapy sessions.</div>
+                </div>
+                <div class="interest-item fade-in">
+                    <div class="interest-icon">🏍️</div>
+                    <div class="interest-text"><strong>Motorcycle:</strong> I ride my motorcycle at night. Empty highways with city lights blurring is my favorite vibe. Just me, my bike, and the open road.</div>
+                </div>
+                <div class="interest-item fade-in">
+                    <div class="interest-icon">📚</div>
+                    <div class="interest-text"><strong>Reading:</strong> Manhwa addict – Solo Leveling is what got me started, now I'm deep in the webtoon rabbit hole. My reading list is 80% Korean comics, 20% "I'll get to it eventually" promises.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+ </section>
 
 <!-- Ocean animation layer -->
     <div class="ocean">
@@ -273,6 +342,9 @@
 <!-- Blood splatter on name -->
 <div class="blood-splatter" id="bloodSplatter"></div>
 
+<!-- Fullscreen fade overlay -->
+<div class="fade-overlay" id="fadeOverlay"></div>
+
 <script>
 /* ---------- elements ---------- */
 const shark      = document.getElementById('shark');
@@ -285,6 +357,7 @@ const flash      = document.getElementById('attackFlash');
 const warn       = document.getElementById('warningText');
 const btn        = document.getElementById('workButton');
 const bubblesBox = diver.querySelector('.bubbles');
+const oceanParticlesBox = document.getElementById('oceanParticles');
 setInterval(()=>{
     const b = document.createElement('div');
     b.className = 'bubble';
@@ -330,10 +403,35 @@ function keepAtWorkWheel(e){
     if(!lockWork) return;
     if(e.deltaY < 0 && scrollY <= workTop){ e.preventDefault(); scrollTo(0, workTop); }
 }
+function spawnOceanParticles(){
+    if(!oceanParticlesBox) return;
+    oceanParticlesBox.innerHTML = '';
+    const count = 50;
+    for(let i=0;i<count;i++){
+        const p = document.createElement('div');
+        p.className = 'particle ' + (Math.random()<0.6? 'small-bubble' : 'medium-bubble');
+        p.style.left = Math.round(Math.random()*100) + 'vw';
+        p.style.top  = '100vh';
+        p.style.animationDelay = (Math.random()*10) + 's';
+        p.style.animationDuration = (12 + Math.random()*8) + 's';
+        oceanParticlesBox.appendChild(p);
+    }
+}
 function lockToWork(){
     lockWork = true;
     updateWorkTop();
-    scrollTo({ top: workTop, behavior: 'smooth' });
+    const overlay = document.getElementById('fadeOverlay');
+    overlay.classList.add('active');
+    setTimeout(()=>{
+        scrollTo({ top: workTop });
+        overlay.style.transition = 'opacity 0.5s ease-out';
+        overlay.classList.remove('active');
+    },2000);
+    setTimeout(()=>{
+        overlay.style.transition = '';
+        document.querySelectorAll('.fade-in, .fade-in-content').forEach(el=>{ el.style.opacity='0'; });
+        spawnOceanParticles();
+    },2500);
     window.addEventListener('scroll', keepAtWork);
     window.addEventListener('wheel', keepAtWorkWheel, { passive: false });
 }
